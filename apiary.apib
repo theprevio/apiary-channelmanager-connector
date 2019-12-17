@@ -1,0 +1,179 @@
+FORMAT: 1A
+HOST: http://chm.previo.cz/api
+
+
+# CHM connector
+
+API for communication between Previo PMS and CHM app.
+
+## Price Actions Collection [/price-actions{?hotelId}{?partnerId}]
++ Parameters
+    + hotelId: 123 (integer) - ID of the hotel
+    + partnerId: 1262 (integer) - ID of the partner (OTA)
+    
+### Update price discounts (Lastminute, Longterm, etc.) [PUT]
++ Request (application/json)
+
+    + Headers
+    
+            Chm-Login: Username or client Id
+            Chm-Secret: Encrypted password or secret Id
+            Chm-Token: Encrypted refresh token
+
+    + Attributes (array[PriceActionRequest])
+    
++ Response 200 (application/json)
+
+    + Attributes (SuccessResponseBoolean)
+
++ Response 500 (application/json)
+
+    + Attributes (ErrorResponseBoolean)
+
+## Room kind Collection [/room{?hotelId}{?partnerId}]
++ Parameters
+    + hotelId: 123 (integer) - ID of the hotel
+    + partnerId: 1262 (integer) - ID of the partner (OTA)
+    
+### Get list of rooms available on OTA [GET]
++ Request (application/json)
+
+    + Headers
+    
+            Chm-Login: Username or client Id
+            Chm-Secret: Encrypted password or secret Id
+            Chm-Token: Encrypted refresh token
+
+    
++ Response 200 (application/json)
+
+    + Attributes
+        + result (array[RoomTypeResponse])
+        + errors (array)
+
++ Response 500 (application/json)
+
+    + Attributes (ErrorResponseArray)
+    
+
+## Rate plan Collection [/rate-plan{?hotelId}{?partnerId}]
++ Parameters
+    + hotelId: 123 (integer) - ID of the hotel
+    + partnerId: 1262 (integer) - ID of the partner (OTA)
+
+### Get list of rate plans available on OTA [GET]
++ Request (application/json)
+
+    + Headers
+    
+            Chm-Login: Username or client Id
+            Chm-Secret: Encrypted password or secret Id
+            Chm-Token: Encrypted refresh token
+
+    
++ Response 200 (application/json)
+
+    + Attributes
+        + result (array[RatePlanResponse])
+        + errors (array)
+
++ Response 500 (application/json)
+
+    + Attributes (ErrorResponseArray)
+
+
+## Rabbit MQ Reservation [/]
+This is not real API endpoint. This is just description what is the Reservation message structure exchanged between Channel manager app and Previo Rabbit MQ queue.
+
+### Reservation [POST]
+
++ Request (application/json)
+    + Attributes (ReservationRequest)
+
+    
++ Response 200 (application/json)
+
+    + Attributes
+        + result (array[RatePlanResponse])
+        + errors (array)
+
++ Response 500 (application/json)
+
+    + Attributes (ErrorResponseArray)
+
+        
+
+## Data Structure
+
+## ReservationRequest
++ reservationId: `99555A` (string, required) - Unique ID of the reservation
++ hotelId: 3 (number, required) - Id of the hotel
++ partnerId: 1262 (number, required) - Previo partner ID
++ status: `new` (enum[string], required) - Reservation status
+    + Members
+        + `new`
+        + `modified`
+        + `cancelled`
++ currency: `EUR` (string, required) - `Currency of the reservation in ISO 4217 format (^([A-Z]{3})$)`
++ created: `2020-01-15T13:56:59` (string, optional) - Format Y-m-d\TH:i:s
++ lastChange: `2020-01-15T13:56:59` (string, optional) - Format Y-m-d\TH:i:s
++ language: `cs` (string, optional) - `Format ^([a-z]{2})$` 
++ totalPrice: 3 (number, optional) - Total price of the reservation (float)
++ commissionAmount: 3 (number, optional) - Total commission amount (float)
+
+
+## PriceActionRequest
++ id: 99 (number, required) - Price action ID
++ daysThreshold: 3 (number, required) - Number of days
++ priceChange: 15.5 (number, required) - Percentage Discount / Surcharge
++ type: `LastMinute` (enum[string], required) - Price action type
+    + Members
+        + `LastMinute`
+        + `FirstMinute`
+        + `LongTerm`
++ sinceDate: `2019-10-11` (string, optional) - Format YYYY-MM-DD
++ endDate: `2020-01-15` (string, optional) - Format YYYY-MM-DD
++ roomIds: 195, 2126 (array[number], required) - List of rooms, where the price action is valid
+
+
+## RoomTypeResponse
++ id: `99999A` (string, required) - Room type ID
++ name: 3 (string, required) - Room type name
++ active: true (boolean, required) - Room type is active?
++ defaultAllotment: 2 (number, optional) - Default number of guests in room kind
++ maxAllotment: 4 (number, optional) - Max number of guests in room
++ minNumAdults: 1 (number, optional)
++ maxNumAdults: 2 (number, optional)
++ numChildren: 2 (number, optional)
++ numOfRooms: 99 (number, optional) - How many rooms of this kind is available
+
+## RatePlanResponse
++ id: `89999A` (string, required) - Rateplan ID
++ name: 3 (string, required) - Rateplan name
++ active: true (boolean, required) - Rateplan is active?
++ minStay: 2 (number, optional) - Is there any min stay restriction set for this rateplan?
++ maxStay: 4 (number, optional) - Is there any max stay restriction set for this rateplan?
+
+
+## ErrorResponseArray
++ result (array, required)
++ errors (array[ErrorResponseType], optional)
+
+## SuccessResponseBoolean
++ result: true (boolean, required) - If the request was successful or not
++ errors (array[ErrorResponseType], optional)
+
+## ErrorResponseBoolean
++ result: false (boolean, required) - If the request was successful or not
++ errors (array[ErrorResponseType], optional)
+
+## ErrorResponseType
++ errorType: `INVALID_REQUEST` (string, optional) - Error type
++ errorText: `Partner with ID 1334 has not been registered in services.` (string, optional) - Error description
++ remoteErrorType: null (string, optional) - Error type on OTA side
++ remoteErrorText: null (string, optional) - Error description on OTA side
+
+## PriceActionTypes
++ FirstMinute (string, required) - 
++ LastMinute (string, required) - 
++ LongTerm (string, required) -
