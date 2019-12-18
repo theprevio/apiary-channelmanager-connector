@@ -106,7 +106,7 @@ This is not real API endpoint. This is just description what is the Reservation 
 ## Data Structure
 
 ## ReservationRequest
-+ reservationId: `99555AA` (string, required) - Unique ID of the reservation
++ reservationId: `99555BA` (string, required) - Unique ID of the reservation
 + hotelId: 3 (number, required) - Id of the hotel
 + partnerId: 1262 (number, required) - Previo partner ID
 + status: `new` (enum[string], required) - Reservation status
@@ -134,6 +134,8 @@ This is not real API endpoint. This is just description what is the Reservation 
 + sinceDate: `2019-10-11` (string, optional) - Format YYYY-MM-DD
 + endDate: `2020-01-15` (string, optional) - Format YYYY-MM-DD
 + roomIds: 195, 2126 (array[number], required) - List of rooms, where the price action is valid
++ room (object, optional)
+
 
 
 ## RoomTypeResponse
