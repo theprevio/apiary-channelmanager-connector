@@ -124,18 +124,17 @@ This is not real API endpoint. This is just description what is the Reservation 
 
 
 ## CustomerReservation
-+ id: 99 (number, required) - Price action ID
-+ daysThreshold: 3 (number, required) - Number of days
-+ priceChange: 15.5 (number, required) - Percentage Discount / Surcharge
-+ type: `LastMinute` (enum[string], required) - Price action type
-    + Members
-        + `LastMinute`
-        + `FirstMinute`
-        + `LongTerm`
-+ sinceDate: `2019-10-11` (string, optional) - Format YYYY-MM-DD
-+ endDate: `2020-01-15` (string, optional) - Format YYYY-MM-DD
-+ roomIds: 195, 2126 (array[number], required) - List of rooms, where the price action is valid
-+ room (object, optional)
++ firstName: `John` (string, required)
++ lastName: `Doe` (string, required)
++ email: `john@doe.com` (string, required)
++ phone: `+0033456666` (string, optional)
++ zip: `11000` (string, optional)
++ country: `cs` (string, optional) - `Format ^([a-z]{2})$`
++ city: `Prague` (string, optional)
++ street: `Downing` (string, optional)
++ company: `AbdComp ltd.` (sting, optional)
++ companyVatNumber: `4555666` (string, optional)
++ note: `Booker's note` (string, optional)
 
 
 ## PriceActionRequest
