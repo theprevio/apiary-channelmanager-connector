@@ -120,6 +120,22 @@ This is not real API endpoint. This is just description what is the Reservation 
 + language: `cs` (string, optional) - `Format ^([a-z]{2})$` 
 + totalPrice: 3 (number, optional) - Total price of the reservation (float)
 + commissionAmount: 3 (number, optional) - Total commission amount (float)
++ customer: (CustomerReservation) - Info about the person who book the reservation
+
+
+## CustomerReservation
++ id: 99 (number, required) - Price action ID
++ daysThreshold: 3 (number, required) - Number of days
++ priceChange: 15.5 (number, required) - Percentage Discount / Surcharge
++ type: `LastMinute` (enum[string], required) - Price action type
+    + Members
+        + `LastMinute`
+        + `FirstMinute`
+        + `LongTerm`
++ sinceDate: `2019-10-11` (string, optional) - Format YYYY-MM-DD
++ endDate: `2020-01-15` (string, optional) - Format YYYY-MM-DD
++ roomIds: 195, 2126 (array[number], required) - List of rooms, where the price action is valid
++ room (object, optional)
 
 
 ## PriceActionRequest
