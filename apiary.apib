@@ -120,8 +120,37 @@ This is not real API endpoint. This is just description what is the Reservation 
 + language: `cs` (string, optional) - `Format ^([a-z]{2})$` 
 + totalPrice: 3 (number, optional) - Total price of the reservation (float)
 + commissionAmount: 3 (number, optional) - Total commission amount (float)
-+ customer: (CustomerReservation) - Info about the person who book the reservation
++ customer: (CustomerReservation, required) - Info about the person who book the reservation
++ creditCard: (CreditCardReservation, optional) - CreditCard details
++ payment: (PaymentReservation, optional) - Info about the person who book the reservation
++ services: (ServicesReservation, optional) - Info about the person who book the reservation
++ generalNote: `Some note` (string, optional)
++ extraInfo: `Some note` (string, optional)
++ cancellationPolicy: `Cancellation policy` (string, optional)
++ customerComments: `Comments` (string, optional)
 
+
+## PaymentReservation
++ type: `cash` (enum[string], required) - Payment method
+    + Members
+        + `cc`
+        + `transfer`
+        + `cash`
+        + `ota`
+        + `na`
++ amount: 150.7 (number, required)
++ currency: `EUR` (string, required) - `Currency of the payment in ISO 4217 format (^([A-Z]{3})$)`
+
+
+## ServicesReservation
++ name: `Extra breakfast` (string, required)
++ price: 150.7 (number, required)
++ serviceId: 55 (string, optional)
++ currency: `EUR` (string, required) - `Currency of the service in ISO 4217 format (^([A-Z]{3})$)`
+
+
+## CreditCardReservation
++ token: `dsf456asdf489cxy7b9xyc456csad214g3adg456dsa1fsa36d325dsf` (string, required)
 
 ## CustomerReservation
 + firstName: `John` (string, required)
