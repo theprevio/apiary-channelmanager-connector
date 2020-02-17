@@ -118,7 +118,7 @@ This is not real API endpoint. This is just description what is the Reservation 
 + created: `2020-01-15T13:56:59` (string, optional) - Format Y-m-d\TH:i:s
 + lastChange: `2020-01-15T13:56:59` (string, optional) - Format Y-m-d\TH:i:s
 + language: `cs` (string, optional) - `Format ^([a-z]{2})$` 
-+ totalPrice: 3 (number, optional) - Total price of the reservation (float)
++ totalPrice: 300.3 (number, optional) - Total price of the reservation (float)
 + commissionAmount: 3 (number, optional) - Total commission amount (float)
 + customer (CustomerReservation, required) - Info about the person who book the reservation
 + creditCard (CreditCardReservation, optional) - CreditCard details
@@ -128,7 +128,66 @@ This is not real API endpoint. This is just description what is the Reservation 
 + extraInfo: `Some note` (string, optional)
 + cancellationPolicy: `Cancellation policy` (string, optional)
 + customerComments: `Comments` (string, optional)
++ rooms (array[RoomReservation], required) - Booked room(s)
 
+## RoomReservation
++ from: `2020-05-05T23:00:59` (string, required) - Format Y-m-d\TH:i:s
++ to: `2020-05-07T23:00:59` (string, required) - Format Y-m-d\TH:i:s
++ roomReservationId: `226` (string, optional) - 
++ roomTypeId: `123456` (string, required) - ID of the booked room type
++ roomTypeName: `Double room` (string, optional) - Name of the booked room type
++ ratePlanId: `123456` (string, required) - ID of the booked rateplan
++ ratePlanName: `Standard Breakfast included` (string, optional) - Name of the booked rateplan
++ guests (array[GuestReservation], required) - Infou about the guests
++ meal: `breakfast` (enum[string], optional) - Meal type
+    + Members
+        + `not-available`
+        + `none`
+        + `breakfast`
+        + `lunch`
+        + `dinner`
+        + `half-board`
+        + `full-board`
+        + `all-inclusive`
+        + `other`
++ currency: `EUR` (string, required) - `Currency of the reservation in ISO 4217 format (^([A-Z]{3})$)`
++ totalPrice: 300.3 (number, optional) - Total price of the room (float)
++ commissionAmout: 30.3 (number, optional) - Commission amount
++ taxPrice: 6.3 (number, optional) - 
++ dailyPrices (array[DailyPricesReservation], required) - Infou about the guests
++ addOns (array[AddOnsReservation], required) - Infou about the guests
++ smoking (boolean, optional)
++ facilities (array, optional)
++ info: `Comments` (string, optional)
++ extraInfo: `Comments` (string, optional)
++ remarks: `Comments` (string, optional)
+
+## GuestReservation
++ firstName: `John` (string, required) - 
++ lastName: `Doe` (string, required) - 
++ child: `false` (boolean, optional) - 
++ age: 26 (number, optional) - 
+
+## DailyPricesReservation
++ date: `2020-05-07T23:00:59` (string, required) - Format Y-m-d\TH:i:s
++ price: `36.6` (number, required) - 
++ ratePlanId: `55` (string, optional) - 
++ ratePlanName: `Standard` (string, optional) - 
++ note (string, optional) - 
+
+
+## AddOnsReservation
++ name: `Breakfast` (string, required) - 
++ pricing: `per-night` (enum[string], required) - Picing method
+    + Members
+        + `per-night`
+        + `per-night-and-person`
+        + `once`
+        + `once-per-person`
++ pricePerUnit: `35.9` (number, required) - 
++ nights: 2 (number, optional) - 
++ persons: 1 (number, optional) - 
++ totalPrice: `71.8` (number, optional) - 
 
 ## PaymentReservation
 + type: `cash` (enum[string], required) - Payment method
