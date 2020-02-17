@@ -101,6 +101,28 @@ This is not real API endpoint. This is just description what is the Reservation 
 
     + Attributes (ErrorResponseArray)
 
+## Reservation [/reservation-details{?hotelId}{?partnerId}{?reservationId}]
++ Parameters
+    + hotelId: 123 (integer) - ID of the hotel
+    + partnerId: 1262 (integer) - ID of the partner (OTA)
+    + reservationId: 1262332 (string) - ID of the reservation
+
+
+### Reservation [GET]
+
++ Request (application/json)
+    + Attributes (ReservationRequest)
+
+    
++ Response 200 (application/json)
+
+    + Attributes
+        + result (array[ReservationRequest])
+        + errors (array)
+
++ Response 500 (application/json)
+
+    + Attributes (ErrorResponseArray)
         
 
 ## Data Structure
