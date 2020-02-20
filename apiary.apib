@@ -130,6 +130,25 @@ Pull the reservation from OTA
 ## Credit Card [/credit-cards]
 API for working with credit cards stored in AWS server
 
+Error Codes:
+| Code | Description                                         | Source       |
+|------|-----------------------------------------------------|--------------|
+| 1001 | Credit Card not found.                              | Elastic      |
+| 1002 | Cannot transform response.                          | Elastic      |
+| 1003 | Cannot provide request.                             | Elastic      |
+| 1004 | Credit Card is Locked.                              | Elastic      |
+| 2001 | You don’t have permission to access on this Server. | Firewall     |
+| 2002 | Your Request is invalid.                            | Firewall     |
+| 3001 | header (name) must be set.                          | Headers      |
+| 3002 | Invalid (name) length.                              | Headers      |
+| 4001 | Decryption failed.                                  | Cryptography |
+| 4002 | Encryption failed.                                  | Cryptography |
+| 4003 | Cannot read key.                                    | Cryptography |
+| 4004 | Cannot scan keys directory.                         | Cryptography |
+| 5001 | Invalid Credit Card Number.                         | Validation   |
+| 5002 | Credit Card is expired.                             | Validation   |
+| 5003 | Expiration should be in 'm/Y' format.               | Validation   |
+| 5004 | Invalid cvv format.                                 | Validation   |
 
 ### Store the card [POST]
 + Request (application/json)
@@ -160,11 +179,13 @@ API for working with credit cards stored in AWS server
                 + `Credit Card is expired.`
                 + `Expiration should be in 'm/y' format.`
                 + `Bad cvv format.`
+        + code: 5004 (number, optional)
 
 + Response 500 (application/json)
 
     + Attributes
         + error: `Other Error.` (string)
+        + code: 5004 (number, optional)
         
 
 ### Unlock the card [PATCH]
@@ -189,21 +210,25 @@ Before getting the card details, there must be API call that unlock the credit c
             + Members
                 + `header Chm-Token-Cc must be set.`
                 + `bad token length.`
+        + code: 5004 (number, optional)
 
 + Response 500 (application/json)
 
     + Attributes
         + error: `Other Error.` (string)
+        + code: 5004 (number, optional)
 
 + Response 403 (application/json)
 
     + Attributes
         + error: `You don’t have permission to access on this Server.` (string)
+        + code: 5004 (number, optional)
 
 + Response 404 (application/json)
 
     + Attributes
         + error: `Credit Card not found.` (string)
+        + code: 5004 (number, optional)
         
 
 ### Get the card [GET]
@@ -233,11 +258,13 @@ This API call has to made from Javascript to be PCI DSS compliant
             + Members
                 + `header Chm-Token-Cc must be set.`
                 + `bad token length.`
+        + code: 5004 (number, optional)
 
 + Response 500 (application/json)
 
     + Attributes
         + error: `Other Error.` (string)
+        + code: 5004 (number, optional)
 
 + Response 404 (application/json)
 
@@ -246,6 +273,7 @@ This API call has to made from Javascript to be PCI DSS compliant
             + Members
                 + `Credit Card not found.`
                 + `Credit Card is Locked.GET credit card`
+        + code: 5004 (number, optional)
         
 
 ### Delete the card [DELETE]
@@ -270,21 +298,25 @@ This call have to go from Previo servers (there is an IP firewall).
             + Members
                 + `header Chm-Token-Cc must be set.`
                 + `bad token length.`
+        + code: 5004 (number, optional)
 
 + Response 500 (application/json)
 
     + Attributes
         + error: `Other Error.` (string)
+        + code: 5004 (number, optional)
 
 + Response 403 (application/json)
 
     + Attributes
         + error: `You don’t have permission to access on this Server.` (string)
+        + code: 5004 (number, optional)
 
 + Response 404 (application/json)
 
     + Attributes
         + error: `Credit Card not found.` (string)
+        + code: 5004 (number, optional)
         
 
 ## Data Structure
