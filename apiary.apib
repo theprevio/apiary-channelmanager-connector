@@ -140,6 +140,8 @@ API for working with credit cards stored in AWS server
             + holder: `John Doe` (string)
             + cvv: `123` (string)
             + expiration: `12/20` (string) - format m/y
+        + ota: `Booking.com` (string, optional) - source of the reservation
+        + departure: `2020-05-18` (string, optional) - format Y-m-d
 
         
     
@@ -202,6 +204,48 @@ Before getting the card details, there must be API call that unlock the credit c
 
     + Attributes
         + error: `Credit Card not found.` (string)
+        
+
+### Get the card [GET]
+Before getting the card details, there must be API call that unlock the credit card. This call have to go from Previo servers (there is an IP firewall).
++ Request (application/json)
+
+    + Headers
+    
+            Chm-Token-Cc: Credit card token (string)
+    
++ Response 200 (application/json)
+
+    + Attributes
+        + card (object)
+            + number: `1234567890111111` (string)
+            + holder: `John Doe` (string)
+            + cvv: `123` (string)
+            + expiration: `12/20` (string) - format m/y
+        + partner: `Booking.com` (string, optional) - source of the reservation
+        + departure: `2020-05-18` (string, optional) - format Y-m-d
+        + created: `2020-05-18T15:55:26` (string, optional) - format Y-m-d\TH:i:s
+
++ Response 400 (application/json)
+
+    + Attributes
+        + error (enum[string]) - Error response
+            + Members
+                + `header Chm-Token-Cc must be set.`
+                + `bad token length.`
+
++ Response 500 (application/json)
+
+    + Attributes
+        + error: `Other Error.` (string)
+
++ Response 404 (application/json)
+
+    + Attributes
+        + error (enum[string]) - Error response
+            + Members
+                + `Credit Card not found.`
+                + `Credit Card is Locked.GET credit card`
         
 
 ### Delete the card [DELETE]
