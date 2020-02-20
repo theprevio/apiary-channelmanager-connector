@@ -125,6 +125,122 @@ Pull the reservation from OTA
 + Response 500 (application/json)
 
     + Attributes (ErrorResponseArray)
+    
+
+## Credit Card [/credit-cards]
+API for working with credit cards stored in AWS server
+
+
+### Store the card [POST]
++ Request (application/json)
+    
+    + Attributes
+        + card (object)
+            + number: `1234567890111111` (string)
+            + holder: `John Doe` (string)
+            + cvv: `123` (string)
+            + expiration: `12/20` (string) - format m/y
+
+        
+    
++ Response 200 (application/json)
+
+    + Attributes
+        + token (string) - token with length of 128
+
++ Response 400 (application/json)
+
+    + Attributes
+        + error (enum[string]) - Error response
+            + Members
+                + `Bad Request Body.`
+                + `Bad Credit Card Number.`
+                + `Credit Card is expired.`
+                + `Expiration should be in 'm/y' format.`
+                + `Bad cvv format.`
+
++ Response 500 (application/json)
+
+    + Attributes
+        + error: `Other Error.` (string)
+        
+
+### Unlock the card [PATCH]
+Before getting the card details, there must be API call that unlock the credit card. This call have to go from Previo servers (there is an IP firewall).
++ Request (application/json)
+
+    + Headers
+    
+            Chm-Token-Cc: Credit card token (string)
+    
++ Response 200 (application/json)
+
+    + Body
+
+            { "OK" }
+
+
++ Response 400 (application/json)
+
+    + Attributes
+        + error (enum[string]) - Error response
+            + Members
+                + `header Chm-Token-Cc must be set.`
+                + `bad token length.`
+
++ Response 500 (application/json)
+
+    + Attributes
+        + error: `Other Error.` (string)
+
++ Response 403 (application/json)
+
+    + Attributes
+        + error: `You don’t have permission to access on this Server.` (string)
+
++ Response 404 (application/json)
+
+    + Attributes
+        + error: `Credit Card not found.` (string)
+        
+
+### Delete the card [DELETE]
+This call have to go from Previo servers (there is an IP firewall).
++ Request (application/json)
+
+    + Headers
+    
+            Chm-Token-Cc: Credit card token (string)
+    
++ Response 200 (application/json)
+
+    + Body
+
+            { "OK" }
+
+
++ Response 400 (application/json)
+
+    + Attributes
+        + error (enum[string]) - Error response
+            + Members
+                + `header Chm-Token-Cc must be set.`
+                + `bad token length.`
+
++ Response 500 (application/json)
+
+    + Attributes
+        + error: `Other Error.` (string)
+
++ Response 403 (application/json)
+
+    + Attributes
+        + error: `You don’t have permission to access on this Server.` (string)
+
++ Response 404 (application/json)
+
+    + Attributes
+        + error: `Credit Card not found.` (string)
         
 
 ## Data Structure
