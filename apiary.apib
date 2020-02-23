@@ -54,19 +54,40 @@ API for communication between Previo PMS and CHM app.
 + Response 500 (application/json)
 
     + Attributes (ErrorResponseArray)
+
+### Get room detail on OTA [GET /room/{roomId}{?hotelId,partnerId}]
++ Request (application/json)
+
+    + Headers
+    
+            Chm-Login: Username or client Id
+            Chm-Secret: Encrypted password or secret Id
+            Chm-Token: Encrypted refresh token
+
+    
++ Response 200 (application/json)
+
+    + Attributes
+        + result (array[RoomTypeResponseExtra])
+        + errors (array)
+
++ Response 500 (application/json)
+
+    + Attributes (ErrorResponseArray)
     
 
-## Rate plan Collection [/rate-plan{?hotelId}{?partnerId}]
+## Rate plan Collection [/rate-plan{?hotelId,partnerId,roomId}]
 + Parameters
     + hotelId: 123 (integer) - ID of the hotel
     + partnerId: 1262 (integer) - ID of the partner (OTA)
+    + roomId: 456358 (integer, optional) - ID of the room when rate plan is per room (OTA)
 
 ### Get list of rate plans available on OTA [GET]
 + Request (application/json)
 
     + Headers
     
-            Chm-Login: Username or client Id
+            Chm-Lognn: Username or client Id
             Chm-Secret: Encrypted password or secret Id
             Chm-Token: Encrypted refresh token
 
@@ -128,26 +149,27 @@ Pull the reservation from OTA
 API for working with credit cards stored in AWS server
 
 Error Codes:
-| Code | Description                                         | Source       |
-|------|-----------------------------------------------------|--------------|
-| 1001 | Credit Card not found.                              | Elastic      |
-| 1002 | Cannot transform response.                          | Elastic      |
-| 1003 | Cannot provide request.                             | Elastic      |
-| 1004 | Credit Card is Locked.                              | Elastic      |
-| 2001 | You don’t have permission to access on this Server. | Firewall     |
-| 2002 | Your Request is invalid.                            | Firewall     |
-| 3001 | header (name) must be set.                          | Headers      |
-| 3002 | Invalid (name) length.                              | Headers      |
-| 4001 | Decryption failed.                                  | Cryptography |
-| 4002 | Encryption failed.                                  | Cryptography |
-| 4003 | Cannot read key.                                    | Cryptography |
-| 4004 | Cannot scan keys directory.                         | Cryptography |
-| 5001 | Invalid Credit Card Number.                         | Validation   |
-| 5002 | Credit Card is expired.                             | Validation   |
-| 5003 | Expiration should be in 'm/Y' format.               | Validation   |
-| 5004 | Invalid cvv format.                                 | Validation   |
+| Code | Description                                         | Source       | HTTP code |
+|------|-----------------------------------------------------|--------------|-----------|
+| 1001 | Credit Card not found.                              | Elastic      | 404       |
+| 1002 | Cannot transform response.                          | Elastic      | 500       |
+| 1003 | Cannot provide request.                             | Elastic      | 500       |
+| 1004 | Credit Card is Locked.                              | Elastic      | 404       |
+| 2001 | You don’t have permission to access on this Server. | Firewall     | 403       |
+| 2002 | Your Request is invalid.                            | Firewall     | 404       |
+| 3001 | header (name) must be set.                          | Headers      | 400       |
+| 3002 | Invalid (name) length.                              | Headers      | 400       |
+| 4001 | Decryption failed.                                  | Cryptography | 500       |
+| 4002 | Encryption failed.                                  | Cryptography | 500       |
+| 4003 | Cannot read key.                                    | Cryptography | 500       |
+| 4004 | Cannot scan keys directory.                         | Cryptography | 500       |
+| 5001 | Invalid Credit Card Number.                         | Validation   | 400       |
+| 5002 | Credit Card is expired.                             | Validation   | 400       |
+| 5003 | Expiration should be in 'm/Y' format.               | Validation   | 400       |
+| 5004 | Invalid cvv format.                                 | Validation   | 400       |
 
 ### Store the card [POST]
+
 + Request (application/json)
     
     + Attributes
@@ -168,22 +190,11 @@ Error Codes:
 
 + Response 400 (application/json)
 
-    + Attributes
-        + error (enum[string]) - Error response
-            + Members
-                + `Bad Request Body.`
-                + `Bad Credit Card Number.`
-                + `Credit Card is expired.`
-                + `Expiration should be in 'm/y' format.`
-                + `Bad cvv format.`
-        + code: 5004 (number, optional)
+    + Attributes (CreditCardErrorCodes400)
 
 + Response 500 (application/json)
 
-    + Attributes
-        + error: `Other Error.` (string)
-        + code: 5004 (number, optional)
-        
+    + Attributes (CreditCardErrorCodes500)
 
 ### Unlock the card [PATCH]
 Before getting the card details, there must be API call that unlock the credit card. This call have to go from Previo servers (there is an IP firewall).
@@ -202,30 +213,19 @@ Before getting the card details, there must be API call that unlock the credit c
 
 + Response 400 (application/json)
 
-    + Attributes
-        + error (enum[string]) - Error response
-            + Members
-                + `header Chm-Token-Cc must be set.`
-                + `bad token length.`
-        + code: 5004 (number, optional)
-
-+ Response 500 (application/json)
-
-    + Attributes
-        + error: `Other Error.` (string)
-        + code: 5004 (number, optional)
+    + Attributes (CreditCardErrorCodes400)
 
 + Response 403 (application/json)
 
-    + Attributes
-        + error: `You don’t have permission to access on this Server.` (string)
-        + code: 5004 (number, optional)
+    + Attributes (CreditCardErrorCodes403)
 
 + Response 404 (application/json)
 
-    + Attributes
-        + error: `Credit Card not found.` (string)
-        + code: 5004 (number, optional)
+    + Attributes (CreditCardErrorCodes404)
+
++ Response 500 (application/json)
+
+    + Attributes (CreditCardErrorCodes500)
         
 
 ### Get the card [GET]
@@ -250,27 +250,15 @@ This API call has to made from Javascript to be PCI DSS compliant
 
 + Response 400 (application/json)
 
-    + Attributes
-        + error (enum[string]) - Error response
-            + Members
-                + `header Chm-Token-Cc must be set.`
-                + `bad token length.`
-        + code: 5004 (number, optional)
-
-+ Response 500 (application/json)
-
-    + Attributes
-        + error: `Other Error.` (string)
-        + code: 5004 (number, optional)
+    + Attributes (CreditCardErrorCodes400)
 
 + Response 404 (application/json)
 
-    + Attributes
-        + error (enum[string]) - Error response
-            + Members
-                + `Credit Card not found.`
-                + `Credit Card is Locked.GET credit card`
-        + code: 5004 (number, optional)
+    + Attributes (CreditCardErrorCodes404)
+
++ Response 500 (application/json)
+
+    + Attributes (CreditCardErrorCodes500)
         
 
 ### Delete the card [DELETE]
@@ -290,31 +278,19 @@ This call have to go from Previo servers (there is an IP firewall).
 
 + Response 400 (application/json)
 
-    + Attributes
-        + error (enum[string]) - Error response
-            + Members
-                + `header Chm-Token-Cc must be set.`
-                + `bad token length.`
-        + code: 5004 (number, optional)
-
-+ Response 500 (application/json)
-
-    + Attributes
-        + error: `Other Error.` (string)
-        + code: 5004 (number, optional)
+    + Attributes (CreditCardErrorCodes400)
 
 + Response 403 (application/json)
 
-    + Attributes
-        + error: `You don’t have permission to access on this Server.` (string)
-        + code: 5004 (number, optional)
+    + Attributes (CreditCardErrorCodes403)
 
 + Response 404 (application/json)
 
-    + Attributes
-        + error: `Credit Card not found.` (string)
-        + code: 5004 (number, optional)
-        
+    + Attributes (CreditCardErrorCodes404)
+
++ Response 500 (application/json)
+
+    + Attributes (CreditCardErrorCodes500)
 
 ## Data Structure
 
@@ -453,6 +429,88 @@ This call have to go from Previo servers (there is an IP firewall).
 + room (object, optional)
 
 
+## AirbnbRoomExtras
++ amenity_categories: [essentials] (array)
++ apt: "" (string)
++ bathrooms: 1 (number)
++ bathroom_shared: null
++ bathroom_shared_with_category: null
++ bed_type_category: "real_bed" (string)
++ bedrooms: 1 (number)
++ beds: 4 (number)
++ cancellation_policy_category: "flexible" (string)
++ check_in_option: null
++ check_in_time: 15 (number)
++ check_in_time_ends_at: null
++ check_out_time: null
++ city: "Praha 9" (string)
++ common_spaces_shared: null
++ common_spaces_shared_with_category: null
++ country_code: "CZ"
++ directions: ""
++ guests_included: 1
++ has_availability: true
++ house_manual: null
++ house_rules: ""
++ id: 40715263
++ instant_book_welcome_message: null
++ instant_booking_lead_time_category: "2_days"
++ lat: 50.111492
++ listing_approval_status: null
++ listing_cleaning_fee: null
++ listing_currency: "EUR"
++ listing_descriptions (array)
+    + (array)
+        + access: null
+        + author_type: "human"
+        + description: "TEST"
+        + detected_languages: null
+        + house_rules: null
+        + interaction: null
+        + locale: "cs"
+        + localized_language_name: "Czech"
+        + name: "Previo APP test integration appartman 4"
+        + neighborhood_overview: null
+        + notes: null
+        + space: null
+        + summary: "TEST"
+        + transit: null
++ listing_extra_person_price: 0
++ listing_monthly_price: null
++ listing_nickname: null
++ listing_price: 1000
++ listing_security_deposit: null
++ listing_weekend_price: null
++ listing_weekly_price: null
++ lng: 14.505368
++ localized_cleaning_fee: null
++ localized_currency: "USD"
++ localized_extra_person_price: 0
++ localized_monthly_price: null
++ localized_price: 1085
++ localized_security_deposit: null
++ localized_weekend_price: null
++ localized_weekly_price: null
++ max_nights_input_value: null
++ min_nights_input_value: null
++ name: "Previo APP test integration appartman 4"
++ permit_or_tax_id: null
++ person_capacity: 4
++ property_external_id: null
++ property_type_category: "apartment"
++ property_type_group: "apartments"
++ requested_approval_status_category: null
++ room_type_category: "private_room"
++ state: "Hlavní město Praha"
++ street: "8825a, Kolbenova 9"
++ synchronization_category: null
++ total_inventory_count: null
++ user_defined_location: true
++ visibility: "platform_partners"
++ zipcode: "190 00"
+
+## AllRoomExtras
++ Airbnb (array[AirbnbRoomExtras])
 
 ## RoomTypeResponse
 + id: `99999A` (string, required) - Room type ID
@@ -464,6 +522,18 @@ This call have to go from Previo servers (there is an IP firewall).
 + maxNumAdults: 2 (number, optional)
 + numChildren: 2 (number, optional)
 + numOfRooms: 99 (number, optional) - How many rooms of this kind is available
+
+## RoomTypeResponseExtra
++ id: `99999A` (string, required) - Room type ID
++ name: 3 (string, required) - Room type name
++ active: true (boolean, required) - Room type is active?
++ defaultAllotment: 2 (number, optional) - Default number of guests in room kind
++ maxAllotment: 4 (number, optional) - Max number of guests in room
++ minNumAdults: 1 (number, optional)
++ maxNumAdults: 2 (number, optional)
++ numChildren: 2 (number, optional)
++ numOfRooms: 99 (number, optional) - How many rooms of this kind is available
++ extra (enum[AllRoomExtras], optional) - Extra informations. May vary depending on OTA.
 
 ## RatePlanResponse
 + id: `89999A` (string, required) - Rateplan ID
@@ -495,3 +565,36 @@ This call have to go from Previo servers (there is an IP firewall).
 + FirstMinute (string, required) - 
 + LastMinute (string, required) - 
 + LongTerm (string, required) -
+
+## CreditCardErrorCodes400
++ error: `Your Request is invalid.` (string)
++ code: 2002 (enum[number], required)
+    + 2002 - Your Request is invalid. (Firewall)
+    + 3001 - header (name) must be set. (Headers)
+    + 3002 - Invalid (name) length. (Headers)
+    + 5001 - Invalid Credit Card Number. (Validation)
+    + 5002 - Credit Card is expired. (Validation)
+    + 5003 - Expiration should be in 'm/Y' format. (Validation)
+    + 5004 - Invalid cvv format. (Validation)
+
+## CreditCardErrorCodes403
++ error: `You don’t have permission to access on this Server.` (string)
++ code: 2001 (enum[number], required)
+    + 2001 - You don’t have permission to access on this Server. (Firewall)
+
+## CreditCardErrorCodes404
++ error: `Credit Card not found.` (string)
++ code: 1001 (enum[number], required)
+    + 1001 - Credit Card not found. (Elastic)
+    + 1004 - Credit Card is Locked. (Elastic)
+
+## CreditCardErrorCodes500
++ error: `Cannot transform response.` (string)
++ code: 1002 (enum[number], required)
+    + 1002 - Cannot transform response. (Elastic)
+    + 1003 - Cannot provide request. (Elastic)
+    + 4001 - Decryption failed. (Cryptography)
+    + 4002 - Encryption failed. (Cryptography)
+    + 4003 - Cannot read key. (Cryptography)
+    + 4004 - Cannot scan keys directory. (Cryptography)
+    + 5001 - Invalid Credit Card Number. (Validation)
