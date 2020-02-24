@@ -6,6 +6,139 @@ HOST: http://chm.previo.cz/api
 
 API for communication between Previo PMS and CHM app.
 
+## Authorization [/authorize-partner]
+So far only for Airbnb.
+### Authorize [POST]
++ Request (application/json)
+
+    + Headers
+    
+            Chm-Login: Username or client Id
+            Chm-Secret: Encrypted password or secret Id
+    
+    + Attributes
+
+        + code: `code` (string)
+
++ Response 200
+
+    + Attributes
+        + success: true (boolean, required)
+        + userId: 123 (number, optional)
+        + token: `asdfxvanef` (string, optional)
+        + errors: Invalid payload (array[string], required)
+
+### Revoke [DELETE]
++ Request (application/json)
+
+    + Headers
+    
+            Chm-Login: Username or client Id
+            Chm-Secret: Encrypted password or secret Id
+            Chm-Token: Encrypted refresh token
+
++ Response 200
+
+    + Attributes
+        + success: true (boolean, required)
+        + message (object, optional)
+            + status (number, optional)
+            + body (string, optional)
+        + errors: Invalid payload (array[string], required)
+
+## Partner settings [/setup-partner]
+So far only for Airbnb.
+### Verify listings [PUT]
++ Request (application/json)
+
+    + Headers
+    
+            Chm-Login: Username or client Id
+            Chm-Secret: Encrypted password or secret Id
+            Chm-Token: Encrypted refresh token
+    
+    + Attributes (StandartAttributes)
+    
+    + Body
+
+            {
+                123456, 123457 // listings ids
+            }
+
++ Response 201
+
+    In real 200 :-(
+
+    + Attributes
+        + success: false (boolean, required)
+
++ Response 200
+
+    + Attributes
+        + result (array, optional) Array of listing details
+        + errors: Invalid payload (array[string], required)
+
+### Update listings [PATCH]
++ Request (application/json)
+t
+    + Headers
+    
+            Chm-Login: Username or client Id
+            Chm-Secret: Encrypted password or secret Id
+            Chm-Token: Encrypted refresh token
+    
+    + Attributes (StandartAttributes)
+    
+    + Body
+
+            {
+                "action" : "unlist", // or "verify" or "publish"
+                "listings" : [123456, 123457] // listings ids
+            }
+
++ Response 201
+
+    In real 200 :-(
+
+    + Attributes
+        + success: false (boolean, required)
+
++ Response 200
+
+    + Attributes
+        + result (array, optional) Array of listing details
+        + errors: Invalid payload (array[string], required)
+
+### Unlink listing [DELETE]
++ Request (application/json)
+
+    + Headers
+    
+            Chm-Login: Username or client Id
+            Chm-Secret: Encrypted password or secret Id
+            Chm-Token: Encrypted refresh token
+    
+    + Attributes (StandartAttributes)
+    
+    + Body
+
+            {
+                123456, 123457 // listings ids
+            }
+
++ Response 201
+
+    In real 200 :-(
+
+    + Attributes
+        + success: false (boolean, required)
+
++ Response 200
+
+    + Attributes
+        + result (array, optional) Array of listing details
+        + errors: Invalid payload (array[string], required)
+
 ## Price Actions Collection [/price-actions{?hotelId}{?partnerId}]
 + Parameters
     + hotelId: 123 (integer) - ID of the hotel
@@ -207,7 +340,7 @@ Before getting the card details, there must be API call that unlock the credit c
 + Response 200 (application/json)
 
     + Body
-
+    
             { "OK" }
 
 
@@ -273,7 +406,9 @@ This call have to go from Previo servers (there is an IP firewall).
 
     + Body
 
-            { "OK" }
+            {
+                "OK"
+            }
 
 
 + Response 400 (application/json)
@@ -291,6 +426,7 @@ This call have to go from Previo servers (there is an IP firewall).
 + Response 500 (application/json)
 
     + Attributes (CreditCardErrorCodes500)
+
 
 ## Data Structure
 
@@ -598,3 +734,12 @@ This call have to go from Previo servers (there is an IP firewall).
     + 4003 - Cannot read key. (Cryptography)
     + 4004 - Cannot scan keys directory. (Cryptography)
     + 5001 - Invalid Credit Card Number. (Validation)
+
+## StandardHeaders
++ Chm-Lognn: `login` (string) - Username or client Id
++ Chm-Secret: `secret` (string) - Encrypted password or secret Id
++ Chm-Token: `token` (string) - Encrypted refresh token
+
+## StandartAttributes
++ hotelId: 123 (number, required) - ID of the hotel (OTA)
++ partnerId: 1262 (number, required) - ID of the partner (OTA)
