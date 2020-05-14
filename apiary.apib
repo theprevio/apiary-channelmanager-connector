@@ -647,7 +647,7 @@ This call have to go from Previo servers (there is an IP firewall).
 
 ## AllRoomExtras
 + Airbnb (array[AirbnbRoomExtras])
-
+Meal
 ## RoomTypeResponse
 + id: `99999A` (string, required) - Room type ID
 + name: 3 (string, required) - Room type name
@@ -671,13 +671,21 @@ This call have to go from Previo servers (there is an IP firewall).
 + numOfRooms: 99 (number, optional) - How many rooms of this kind is available
 + extra (enum[AllRoomExtras], optional) - Extra informations. May vary depending on OTA.
 
+## AllMealPlans
++ breakfast
++ halfboard
++ fullboard
++ allinclusive
++ none
++ unspecified
+
 ## RatePlanResponse
 + id: `89999A` (string, required) - Rateplan ID
 + name: 3 (string, required) - Rateplan name
 + active: true (boolean, required) - Rateplan is active?
 + minStay: 2 (number, optional) - Is there any min stay restriction set for this rateplan?
 + maxStay: 4 (number, optional) - Is there any max stay restriction set for this rateplan?
-
++ mealPlan (enum[AllMealPlans], optional) - Meal plan
 
 ## ErrorResponseArray
 + result (array, required)
