@@ -671,7 +671,7 @@ Meal
 + numOfRooms: 99 (number, optional) - How many rooms of this kind is available
 + extra (enum[AllRoomExtras], optional) - Extra informations. May vary depending on OTA.
 
-## AllMealPlans
+## AllMealPlans (enum)
 + breakfast
 + halfboard
 + fullboard
@@ -685,7 +685,7 @@ Meal
 + active: true (boolean, required) - Rateplan is active?
 + minStay: 2 (number, optional) - Is there any min stay restriction set for this rateplan?
 + maxStay: 4 (number, optional) - Is there any max stay restriction set for this rateplan?
-+ mealPlan (enum[AllMealPlans], optional) - Meal plan
++ mealPlan (AllMealPlans, optional) - Meal plan
 
 ## ErrorResponseArray
 + result (array, required)
