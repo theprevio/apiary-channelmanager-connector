@@ -676,8 +676,12 @@ Meal
 + halfboard
 + fullboard
 + allinclusive
-+ none
++ nonelan
 + unspecified
+
+## AllPricingModels (enum)
++ 1 (number) - per occupancy
++ 2 (number) - per day
 
 ## RatePlanResponse
 + id: `89999A` (string, required) - Rateplan ID
@@ -686,6 +690,7 @@ Meal
 + minStay: 2 (number, optional) - Is there any min stay restriction set for this rateplan?
 + maxStay: 4 (number, optional) - Is there any max stay restriction set for this rateplan?
 + mealPlan (AllMealPlans, optional) - Meal plan
++ pricingModel (AllPricingModels, optional) - Pricing model
 
 ## ErrorResponseArray
 + result (array, required)
