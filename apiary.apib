@@ -490,7 +490,13 @@ This call have to go from Previo servers (there is an IP firewall).
 ## GuestReservation
 + firstName: `John` (string, required) - 
 + lastName: `Doe` (string, required) - 
-+ child: `false` (boolean, optional) - 
++ type: `adult` (enum[string], optional) - Guest category
+    + Members
+        + `adult`
+        + `child`
+        + `infant`
+        + `pensioneruest ca`
+        + `other`
 + age: 26 (number, optional) - 
 
 ## DailyPricesReservation
