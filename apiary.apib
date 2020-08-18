@@ -276,6 +276,36 @@ Pull the reservation from OTA
 + Response 500 (application/json)
 
     + Attributes (ErrorResponseArray)
+
+### Reservation confirm [PATCH /reservation-confirm{?hotelId}{?partnerId}]
+
++ Request (application/json)
+    + Parameters
+        + hotelId: 123 (integer) - ID of the hotel
+        + partnerId: 1262 (integer) - ID of the partner (OTA)
+    
+    + Body
+    
+            {
+                "reservations": [
+                    {
+                        "id": "004FW"
+                        "partnerId": 2
+                    }, {
+                        "id": "483CNWR"
+                        "partnerId": 85
+                    }
+                ]
+            }
+
++ Response 200 (application/json)
+
+    + Attributes
+        + success: true (boolean)
+        + message (string)
+        + errors (array)
+        + data (object)
+            + reservationsConfirmed: 2 (number)
     
 
 ## Credit Card [/credit-cards]
