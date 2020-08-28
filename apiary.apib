@@ -239,6 +239,35 @@ t
 ## Rabbit MQ Reservation [/]
 This is not real API endpoint. This is just description what is the Reservation message structure exchanged between Channel manager app and Previo Rabbit MQ queue.
 
+When the reservation from RabbitMQ queue has been processed the Previo returns immediately to CHM information what is the result (RPC). List of errors, that can Previo return to CHM app:
+
+| errorCode | message                                                  |
+|-----------|----------------------------------------------------------|
+|2000|Missing header|
+|2001| Invalid header|
+|2002| Unable to parse the message|
+|2003| Json schema validation failed|
+|3200| The booking was already cancelled|
+|3201| The supplier confirmation number is missing or invalid|
+|3202| The property Identifier is missing or invalid|
+|3203| The Room Type Code is missing or invalid|
+|3204| The Rate Plan Code is missing or invalid|
+|3205| The guest name is missing|
+|3206| The Check-in date is missing or invalid|
+|3207| The check-out date is missing or invalid|
+|3208| The guest count is missing or invalid|
+|3209| Duplicate booking|
+|3210| Requested room is not available|
+|3211| Requested room could not be matched to any commission|
+|3300| Unable to process the credit card information|
+|3301| Payment type not accepted or payment type change not allowed|
+|4000| Software error|
+|5000| Database error|
+|5001| Database error|
+|6000| Unknown error|
+
+
+
 ### Reservation [POST]
 
 + Request (application/json)
@@ -254,6 +283,8 @@ This is not real API endpoint. This is just description what is the Reservation 
 + Response 500 (application/json)
 
     + Attributes (ErrorResponseArray)
+    
+
 
 ## Reservation [/reservation-details{?hotelId}{?partnerId}{?reservationId}]
 Pull the reservation from OTA
@@ -742,6 +773,7 @@ Meal
 
 ## ErrorResponseType
 + errorType: `INVALID_REQUEST` (string, optional) - Error type
++ errorCode: 3203 (number, optional) - Error code
 + errorText: `Partner with ID 1334 has not been registered in services.` (string, optional) - Error description
 + remoteErrorType: null (string, optional) - Error type on OTA side
 + remoteErrorText: null (string, optional) - Error description on OTA side
