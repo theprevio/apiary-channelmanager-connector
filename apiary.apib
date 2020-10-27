@@ -294,6 +294,12 @@ Pull the reservation from OTA
     + partnerId: 1262 (integer) - ID of the partner (OTA)
     + reservationId: 1262332 (string) - ID of the reservation
 
++ Headers
+
+        Chm-Login: Username or client Id
+        Chm-Secret: Encrypted password or secret Id
+        Chm-Token: Encrypted refresh token
+
 
 ### Reservation [GET]
 
@@ -497,6 +503,7 @@ This call have to go from Previo servers (there is an IP firewall).
 + reservationId: `99555BA` (string, required) - Unique ID of the reservation
 + hotelId: 3 (number, required) - Id of the hotel
 + partnerId: 1262 (number, required) - Previo partner ID
++ originPartnerId: 1262 (number, optional) - Origin Previo partner ID (in case partnerId is CHM)
 + status: `new` (enum[string], required) - Reservation status
     + Members
         + `new`
@@ -830,11 +837,6 @@ Meal
     + 4003 - Cannot read key. (Cryptography)
     + 4004 - Cannot scan keys directory. (Cryptography)
     + 5001 - Invalid Credit Card Number. (Validation)
-
-## StandardHeaders
-+ Chm-Lognn: `login` (string) - Username or client Id
-+ Chm-Secret: `secret` (string) - Encrypted password or secret Id
-+ Chm-Token: `token` (string) - Encrypted refresh token
 
 ## StandartAttributes
 + hotelId: 123 (number, required) - ID of the hotel (OTA)
