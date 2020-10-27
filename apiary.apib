@@ -623,6 +623,10 @@ This call have to go from Previo servers (there is an IP firewall).
 + id: 99 (number, required) - Price action ID
 + daysThreshold: 3 (number, required) - Number of days
 + priceChange: 15.5 (number, required) - Percentage Discount / Surcharge
++ priceCalculation: `Percent` (enum[string], required) - Price calculation (absolute / percent)
+    + Members
+        + `Percent`
+        + `Absolute`
 + type: `LastMinute` (enum[string], required) - Price action type
     + Members
         + `LastMinute`
@@ -630,6 +634,15 @@ This call have to go from Previo servers (there is an IP firewall).
         + `LongTerm`
 + sinceDate: `2019-10-11` (string, optional) - Format YYYY-MM-DD
 + endDate: `2020-01-15` (string, optional) - Format YYYY-MM-DD
++ daysOfTheWeek: `Mon`, `Tue` (array[string], optional) - Which day of week is the discount valid
+    + Members
+        + `Mon`
+        + `Tue`
+        + `Wen`
+        + `Thu`
+        + `Fri`
+        + `Sat`
+        + `Sun`
 + roomIds: 195, 2126 (array[number], required) - List of rooms, where the price action is valid
 + room (object, optional)
 
