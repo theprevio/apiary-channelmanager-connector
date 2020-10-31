@@ -496,6 +496,28 @@ This call have to go from Previo servers (there is an IP firewall).
 
     + Attributes (CreditCardErrorCodes500)
 
+### Delete multiple credit cards [DELETE /api/credit-cards/multiple]
+This call have to go from Previo servers (there is an IP firewall).
++ Request (application/json)
+
+    + Body
+
+            ["token1","token2"]
+
++ Response 200 (application/json)
+
+    + Attributes (UnifiedResponse)
+        + data (object)
+            + total: 2 (number) - number of received tokens
+            + deleted: 1 (number) - number of successfully deleted credit cards
+
++ Response 200 (application/json)
+    
+    + Attributes (UnifiedResponse)
+        + success: false (boolean)
+        + errors: (object)
+            + "Content is not valid JSON.
+
 
 ## Data Structure
 
@@ -788,6 +810,12 @@ Meal
 ## SuccessResponseBoolean
 + result: true (boolean, required) - If the request was successful or not
 + errors (array)
+
+## UnifiedResponse
++ success: true (boolean)
++ message (string)
++ errors (object)
++ data (object)
 
 ## ErrorResponseBoolean
 + result: false (boolean, required) - If the request was successful or not
