@@ -365,10 +365,12 @@ Error Codes:
 | 4002 | Encryption failed.                                  | Cryptography | 500       |
 | 4003 | Cannot read key.                                    | Cryptography | 500       |
 | 4004 | Cannot scan keys directory.                         | Cryptography | 500       |
-| 5001 | Invalid Credit Card Number.                         | Validation   | 400       |
-| 5002 | Credit Card is expired.                             | Validation   | 400       |
-| 5003 | Expiration should be in 'm/Y' format.               | Validation   | 400       |
-| 5004 | Invalid cvv format.                                 | Validation   | 400       |
+| 5001 | Invalid Credit Card Number.                         | Validation   | 422       |
+| 5002 | Credit Card is expired.                             | Validation   | 422       |
+| 5003 | Expiration should be in 'm/Y' format.               | Validation   | 422       |
+| 5004 | Invalid cvv format.                                 | Validation   | 422       |
+| 5005 | Unprocessable Entity [addtional info]               | Validation   | 422       |
+| 5006 | Bad request [addtional info]                        | Validation   | 400       |
 
 ### Store the card [POST]
 
