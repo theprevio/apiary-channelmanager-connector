@@ -235,6 +235,32 @@ t
 
     + Attributes (ErrorResponseArray)
 
+## Create / Update rooms and rates [/rooms-rates{?hotelId}{?partnerId}]
+It\'s a single endpoint because some OTAs require to push rooms and rates in single request.
+
++ Parameters
+    + hotelId: 123 (integer) - ID of the hotel
+    + partnerId: 1262 (integer) - ID of the partner (OTA)
+    
+### Update rooms & rates [PUT]
++ Request (application/json)
+
+    + Headers
+    
+            Chm-Login: Username or client Id
+            Chm-Secret: Encrypted password or secret Id
+            Chm-Token: Encrypted refresh token
+
+    + Attributes (array[RoomsRatesRequest])
+    
++ Response 200 (application/json)
+
+    + Attributes (SuccessResponseBoolean)
+
++ Response 500 (application/json)
+
+    + Attributes (ErrorResponseBoolean)
+
 
 ## Rabbit MQ Reservation [/]
 This is not real API endpoint. This is just description what is the Reservation message structure exchanged between Channel manager app and Previo Rabbit MQ queue.
@@ -870,3 +896,24 @@ Meal
 ## StandartAttributes
 + hotelId: 123 (number, required) - ID of the hotel (OTA)
 + partnerId: 1262 (number, required) - ID of the partner (OTA)
+
+## RoomsRatesRequest
++ rooms (array[RoomsRatesRoom], required)
++ rates (array[RoomsRatesRate], required)
+
+## RoomsRatesRoom
++ id: 123 (number, required) - ID of room type
++ defaultAllotment: 2 (number, optional) - Default number of guests in room kind
++ maxAllotment: 4 (number, optional) - Max number of guests in room
++ numOfRooms: 99 (number, optional) - How many rooms of this kind is available
++ name (array[TranslationType], required)
++ description (array[TranslationType], optional)
++ photos (array[PhotoType], optional)
+
+## TranslationType
++ text (string, required) - translation
++ language: `en` (string, required) - ISO 639-1 language code
+
+## PhotoType
++ url: `https://file_url.com/uri.jpg` (string, required) - File path
++ description (array[PhotoType], optional)
