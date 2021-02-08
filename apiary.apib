@@ -924,7 +924,7 @@ Meal
 
 ## PhotoType
 + url: `https://file_url.com/uri.jpg` (string, required) - File path
-+ description (array[PhotoType], optional)
++ description (array[TranslationType], optional)
 
 ## CancellationPolicyType
 + type (enum[string], required)
@@ -933,9 +933,23 @@ Meal
         + `non-refundable`
 
 ## MealPlanType
-+ type (enum[string], required)
++ type: `single` (enum[string], required)
     + Members
         + `none`
         + `single`
         + `multiple`
-+ meals (array[object], required)
++ meals (array[MealType], required)
+
+## MealType
++ meal: `breakfast` (enum[string], required)
+    + Members
+        + `none`
+        + `breakfast`
+        + `lunch`
+        + `dinner`
+        + `half-board`
+        + `full-board`
+        + `all-inclusive`
+        + `package`
++ isDefault: true (boolean, required) - is it default meal type for this rate
++ isFree: true (boolean, required) - is for free / price is included in accommodation
