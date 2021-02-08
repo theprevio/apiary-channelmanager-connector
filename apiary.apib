@@ -910,6 +910,14 @@ Meal
 + description (array[TranslationType], optional)
 + photos (array[PhotoType], optional)
 
+## RoomsRatesRate
++ id: 123 (number, required) - ID of rate plan
++ name: `Standard rate` (string, required)
++ parentId: 4 (number, optional) - Id of parent rate plan, if any
++ priceChange: 15.5 (number, required) - Percentage Discount / Surcharge
++ cancellationPolicy (CancellationPolicyType, required)
++ mealPlan (MealPlanType, optional)
+
 ## TranslationType
 + text (string, required) - translation
 + language: `en` (string, required) - ISO 639-1 language code
@@ -917,3 +925,17 @@ Meal
 ## PhotoType
 + url: `https://file_url.com/uri.jpg` (string, required) - File path
 + description (array[PhotoType], optional)
+
+## CancellationPolicyType
++ type (enum[string], required)
+    + Members
+        + `standard`
+        + `non-refundable`
+
+## MealPlanType
++ type (enum[string], required)
+    + Members
+        + `none`
+        + `single`
+        + `multiple`
++ meals (array[object], required)
