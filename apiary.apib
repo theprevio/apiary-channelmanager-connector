@@ -932,6 +932,25 @@ Meal
     + Members
         + `standard`
         + `non-refundable`
++ rules (array[CancelationPolicyRule], optional)
+
+## CancelationPolicyRule
++ amount: 20 (number, required)
++ amountType (enum[string], required)
+    + Members
+        + `Percent`
+        + `Absolute`
++ offset: 150 (number, required)
++ offsetType (enum[string], required)
+    + Members
+        + `Hours`
+        + `Days`
++ order: 0 (number, optional)
++ validity (DateRange, optional)
+
+## DateRange
++ from: `2019-10-11` (string, optional) - Format YYYY-MM-DD
++ to: `2019-10-15` (string, optional) - Format YYYY-MM-DD
 
 ## MealPlanType
 + type: `single` (enum[string], required)
